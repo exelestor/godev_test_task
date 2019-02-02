@@ -2,20 +2,21 @@ package appinfo
 
 import (
 	"fmt"
-	"github.com/exelestor/godev_test_task/pkg/htmldom"
 	"golang.org/x/net/html"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/exelestor/godev_test_task/pkg/htmldom"
 )
 
 type Result struct {
-	ID     string  `json:"id"`
-	Name   string  `json:"name"`
-	Icon   string  `json:"icon"`
-	Rating float64 `json:"rating"`
-	Error  string  `json:"error,omitempty"`
+	ID     string   `json:"id"`
+	Name   string   `json:"name,omitempty"`
+	Icon   string   `json:"icon,omitempty"`
+	Rating *float64 `json:"rating,omitempty"`
+	Error  string   `json:"error,omitempty"`
 }
 
 const (
@@ -36,17 +37,21 @@ var (
 func Get(id, lang string) (Result, error) {
 	dom, err := makeRequest(id, lang)
 	if err != nil {
-		if err == fmt.Errorf(ERRAPPNOTFOUND) {
+		if err.Error() == ERRAPPNOTFOUND {
 			return Result{ID: id, Error: ERRAPPNOTFOUND}, nil
 		}
 		return Result{}, err
 	}
 
 	result := Result{
-		ID:     id,
-		Name:   findName(dom),
-		Icon:   findIcon(dom),
-		Rating: findRating(dom),
+		ID:   id,
+		Name: findName(dom),
+		Icon: findIcon(dom),
+	}
+
+	rating := findRating(dom)
+	if rating != -1 {
+		result.Rating = &rating
 	}
 
 	return result, nil

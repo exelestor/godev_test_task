@@ -19,7 +19,7 @@ const page = `<html>
 </body>
 </html>`
 
-func TestGetElementByID(t *testing.T) {
+func TestGetFirstElementByClass(t *testing.T) {
 	dom, err := html.Parse(strings.NewReader(page))
 	if err != nil {
 		t.Errorf("cannot parse html")

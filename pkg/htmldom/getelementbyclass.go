@@ -2,6 +2,8 @@ package htmldom
 
 import "golang.org/x/net/html"
 
+// inspired by https://siongui.github.io/2016/04/15/go-getElementById-via-net-html-package/
+
 func GetFirstElementByClass(node *html.Node, id string) *html.Node {
 	return traverse(node, id)
 }
