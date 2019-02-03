@@ -21,7 +21,7 @@ func (o *Output) AppendLoop(in chan appinfo.Result) {
 	}
 }
 
-func (o *Output) String() string {
+func (o Output) String() string {
 	j, _ := json.Marshal(o)
 	return string(j)
 }
@@ -55,8 +55,5 @@ func main() {
 
 	workers.WaitUntilDone()
 
-	j, _ := json.Marshal(output)
-	fmt.Println(string(j))
-
-	//fmt.Println(output)
+	fmt.Println(output)
 }
